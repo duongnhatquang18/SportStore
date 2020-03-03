@@ -1,0 +1,122 @@
+1. Entity Framwork - Set up - Version. 
+	- The .net core require the version 2.2 => 2.3 for entityframwork.sql . so re-down the version to 2.2 
+	
+2. No executable found matching command dotnet-ef
+	- open the .csproj file and make sure that there is a
+		DotNetCliToolReference reference for the Microsoft.EntityFrameworkCore.Tools.DotNet package
+	- If you have added the package, then make sure you are running the commands in the project folder,
+		which is the one that contains the .csproj file and the Startup.cs file. If you try to use dotnet ef in any 
+		other folder, then the .NET Core runtime won’t be able to find the commands you are using.
+		
+3. The “The entity type requires a primary key to be defined” Error
+	- If you see this error when trying to create a migration, then the most likely cause is that you have not selected
+		a primary key. For simple applications, the best approach is the one shown Listing 5-3
+		
+		Listing 5-3. Adding a Primary Key Property in the Product.cs File in the Models Folder
+			namespace SportsStore.Models {
+				public class Product {
+					public long Id { get; set; }
+					public string Name { get; set; }
+					public string Category { get; set; }
+					public decimal PurchasePrice { get; set; }
+					public decimal RetailPrice { get; set; }
+				}
+			}
+			
+4. The “There is already an object named <Name> in the database” Exception
+
+	- This exception occurs when you try to apply a migration that tries to create a database table that already
+	  exists. This usually happens when you remove a migration from a project, re-create it, and then try to apply
+	  it to the database again. The database already contains the tables created by the migration, which prevents it
+	  from succeeding.
+	- This problem is most likely to arise during development, and the easiest solution is to delete and recreate the database
+	  by running the commands in Listing 5-16 in the project folder. These commands will remove the database 
+	  and the data it contains, which means that it should not be used on production systems
+
+		Listing 5-16. Resetting a Database
+			dotnet ef database drop --force
+			dotnet ef database update
+5. The “A Network-Related or Instance-Specific Error Occurred” Exception
+
+	- This exception tells you that Entity Framework Core has been unable to contact the database server. The
+	most common cause of this exception is a mistake in the connection string in the appsettings.json file. If
+	you are using LocalDB for development, then make sure that you have set the Server configuration property
+	to (localdb)//MSSQLLocalDb, where there are two / characters and the second part of the name is MS_SQL_
+	Local_Db (but without the underscore characters). 
+	- If you are using the full SQL Server product—or another
+	database server entirely—then make sure that you have used the correct hostname and TCP port, ensure 
+	that the hostname resolves to the correct IP address, and test your network to make sure that you can reach 
+	the server.
+	
+6. The “Cannot Open Database Requested By The Login” Exception
+	- If you receive this exception, then Entity Framework Core is able to communicate with the database server
+	but has asked to access a database that does not exist. 
+	- The first thing to check is that you have specified the
+	correct database name in the connection string in the appsettings.json file. 
+	For LocalDB (and the full SQL Server products), this means correctly setting the Database property, as shown in Listing 5-6. 
+	
+	- If you are using a different database server, then check the documentation to see how the database name should be
+	specified.
+	
+	- If you have entered the correct database name, then it is possible that you have created a migration but 
+	not applied it, which means that the database server has never been asked to create the database that Entity
+	Framework Core is asking to access. Run dotnet ef database update in the project folder to apply the
+	migration.
+	
+7. The “Property Could Not Be Mapped” Exception
+	- This exception occurs when you add a property to the data model class but don’t create and apply a
+	migration to update the database. See Chapter 13 for details of how to use migrations to keep the data model
+	and the database synchronized.
+8. The “Invalid Object Name” Exception
+	- This exception usually means that Entity Framework Core has tried to query data from a table that does not
+	exist in the database. 
+	- This is a variation of the problem described in the previous section and usually means
+	that the database has not been updated to reflect a change in the application’s data model. See Chapter 13
+	for details of how migrations work and how to manage them.
+	
+9. The “There is Already an Open DataReader” Exception
+
+	This exception occurs when you are trying to start a query before reading all of the results from the previous
+	one. If you are using SQL Server, you can enable the multiple active result set (MARS) feature in the 
+	connection string, as shown in Listing 5-6 - MultipleActiveResultSets . For other databases, you can use the ToArray or ToList method 
+	to force one query to be fully read before starting the next query.
+	
+	Listing 5-6. Adding a Connection String in the appsettings.json File in the SportsStore Folder
+		{
+		  "ConnectionStrings": {
+			 "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=SportsStore;Trusted_
+		Connection=True;MultipleActiveResultSets=true"
+		  },
+		  
+10. The “Cannot Consume Scoped Service from Singleton” Exception
+	The AddDbContext method in the Startup class uses the AddedScoped method to set up the dependency
+	injection for the context class. This means you must use the AddTransient or AddScoped method, as shown
+	in Listing 5-7, to configure any service that depends on the context class, such as repository implementation
+	classes. If you use the AddSingleton method to register your services, you will receive an exception when
+	ASP.NET Core tries to resolve dependencies.
+	
+11. Problems Storing Data
+	11.1 Objects Are Not Stored
+		If the application seems to be working but objects are not stored in the database, then the first thing to check
+		is that you remembered to call the SaveChanges method in your repository implementation class. Entity
+		Framework Core will only update the database after the SaveChanges method is called and will silently
+		discard changes if you forget.
+		
+	11.2 Only Some Property Values Are Not Stored
+		If only some of the data values associated with an object are being stored in the database, then make sure
+		that you only use properties and that all of them have set and get clauses. Entity Framework Core will
+		only store the value of properties and will ignore any methods or fields by default. If the constraints of your
+		application prevent you from using only properties in your data model classes, then see Chapter 20 for the
+		advanced Entity Framework Core features for changing the way that data model classes are used.
+		
+	11.3 The “Cannot Insert Explicit Value for Identity Column” Exception
+		If you have selected a primary key as shown in Listing 5-3, then Entity Framework Core will configure the 
+			database so that the database server is responsible for generating the values that will allow objects to be
+			uniquely identified.
+		This means that multiple applications—or instances of the same application—can share the same
+			database without coordination to avoid duplicate values. It also means that an exception will be thrown if
+			you try to store a new object with a key value that is not the default for the key type. For the Product class,
+			the primary key type is long, so new objects can be stored only when the Id value is zero, which is the default
+			long value. The most common cause of this exception is including an input element in the view that is used
+			to create new objects and allowing the user to provide a value, which is then used by the MVC model binder
+			and passed on to the database via Entity Framework Core.
