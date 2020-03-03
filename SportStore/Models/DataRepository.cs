@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SportStore.Models
 {
@@ -18,6 +19,17 @@ namespace SportStore.Models
         public void AddProduct(Product product)
         {
             this.context.Products.Add(product);
+            this.context.SaveChanges();
+        }
+
+        public Product GetProduct(long key)
+        {
+            return this.context.Products.Where(x => x.Id == key).FirstOrDefault();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            this.context.Products.Update(product);
             this.context.SaveChanges();
         }
     }

@@ -28,7 +28,7 @@ namespace SportStore
             services.AddMvc()
                     .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton<IRepository, DataRepository>();
+            services.AddTransient<IRepository, DataRepository>();
 
             /* Add connect string for ef core*/
             string conString = _configuration["ConnectionStrings:DefaultConnection"];
