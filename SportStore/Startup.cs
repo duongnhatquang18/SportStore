@@ -28,7 +28,6 @@ namespace SportStore
                     .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
             services.AddSingleton<IRepository, DataRepository>();
-                    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
