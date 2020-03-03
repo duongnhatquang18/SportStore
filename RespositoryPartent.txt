@@ -1,0 +1,10 @@
+1. The Repository Design Pattern in C# Mediates between the domain and the data mapping layers using a collection-like interface for accessing the domain objects.
+2. 
+	- we can say that a Repository Design Pattern acts as a middleman or middle layer between the rest of the application and the data access logic. 
+	- The advantage of doing so is that, if you need to do any change then you need to do in one place. 
+3. 
+	Why we need the Repository Design Pattern in C#?
+		- Most of the data-driven applications need to access the data residing in one or more other data sources. The wrapper Repository will take care it. 
+		- Limit code changed if having on model or sql query. 
+
+		

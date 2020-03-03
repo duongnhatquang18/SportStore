@@ -1,0 +1,52 @@
+public class Startup
+{	
+
+	public IConfiguration _configuration { get; }
+    
+	public Startup(IConfiguration configuration)
+    {
+		 this._configuration = configuration;
+    }
+	
+	/* IOC Concepts */
+		The IoC container creates an object of the specified class and also injects all the dependency objects through a constructor, a property or a method at run time and disposes it at the appropriate time. 
+		This is done so that we don't have to create and manage objects manually.
+		All the containers must provide easy support for the following DI lifecycle.
+			Register: The container must know which dependency to instantiate when it encounters a particular type. This process is called registration. Basically, it must include some way to register type-mapping.
+			Resolve: When using the IoC container, we don't need to create objects manually. The container does it for us. This is called resolution. The container must include some methods to resolve the specified type; the container creates an object of the specified type, injects the required dependencies if any and returns the object.
+			Dispose: The container must manage the lifetime of the dependent objects. Most IoC containers include different lifetimemanagers to manage an object's lifecycle and dispose it.	
+	/* IOC */
+	
+	/* IOC of .net core */
+		The .NET Core built-in IoC Container implements the IServiceProvider interface. 
+		So if for some reason, you want to create your own IoC Container, you should implement this interface
+		In .NET Core, the dependencies managed by the container are called services.
+		You have two types of services:
+			Framework services: these services are part of the .NET Core framework; some examples of framework services are IApplicationBuilder, IConfiguration, ILoggerFactory, etc.
+			Application services: these are the services that you create in your application; since the IoC doesn't know them, you need to register them explicitly.
+		
+		/* IConfiguration */
+			manage the connect string for connect database.
+			
+	/* IOC of .net core */
+	
+	public void ConfigureServices(IServiceCollection services)
+	{
+		services.AddMvc()
+				.SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+				
+		// there are 2 type of service 
+		
+				
+	}
+	
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+            // ... code ...
+		app.UseDeveloperExceptionPage();
+		app.UseStatusCodePages();
+		app.UseStaticFiles();
+		app.UseMvcWithDefaultRoute();
+    }
+		
+}
