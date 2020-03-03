@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SportStore.Models;
 
 namespace SportStore
 {
@@ -25,6 +26,8 @@ namespace SportStore
         {
             services.AddMvc()
                     .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<IRepository, DataRepository>();
                     
         }
 
