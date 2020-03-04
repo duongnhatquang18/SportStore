@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SportStore.Models
@@ -14,7 +15,8 @@ namespace SportStore.Models
             this.context = dataContext;
         }
            
-        public IEnumerable<Product> Products => context.Products;
+        public IEnumerable<Product> Products => context.Products
+                                                       .Include(p => p.Category).ToList();
 
         public void AddProduct(Product product)
         {
@@ -30,7 +32,8 @@ namespace SportStore.Models
 
         public Product GetProduct(long key)
         {
-            return this.context.Products.Where(x => x.Id == key).FirstOrDefault();
+            return this.context.Products.Include(x => x.Category)
+                                        .First(x => x.Id == key);
         }
 
         public void UpdateProduct(Product product)
@@ -40,6 +43,7 @@ namespace SportStore.Models
             p.Name = product.Name;
             p.PurchasePrice = product.PurchasePrice;
             p.RetailPrice = product.RetailPrice;
+            p.CategoryId = product.CategoryId;
 
             this.context.SaveChanges();
         }

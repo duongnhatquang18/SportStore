@@ -16,8 +16,19 @@
         <form asp-action="AddProduct" method="post">
             <div class="row">
                 <div class="col-1"></div>
-                <div class="col"><input name="Name" class="form-control" /></div>
-                <div class="col"><input name="Category" class="form-control" /></div>
+                <div class="col">
+                    <input name="Name" class="form-control" />
+                </div>
+                <div class="col">
+                    <select class="form-control" id="CategoryId" name="CategoryId">
+                        @foreach (Category c in ViewBag.Categories)
+                        {
+                            <option value="@c.Id">
+                                @c.Name
+                            </option>
+                        }
+                    </select>
+                </div>
                 <div class="col">
                     <input name="PurchasePrice" class="form-control" />
                 </div>
@@ -42,7 +53,7 @@
                 <div class="row p-2">
                     <div class="col-1">@p.Id</div>
                     <div class="col">@p.Name</div>
-                    <div class="col">@p.Category</div>
+                    <div class="col">@p.Category.Description</div>
                     <div class="col text-right">@p.PurchasePrice</div>
                     <div class="col text-right">@p.RetailPrice</div>
                     <div class="col">

@@ -29,6 +29,7 @@ namespace SportStore
                     .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
             services.AddTransient<IRepository, DataRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
 
             /* Add connect string for ef core*/
             string conString = _configuration["ConnectionStrings:DefaultConnection"];

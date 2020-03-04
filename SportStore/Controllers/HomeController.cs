@@ -9,15 +9,18 @@ namespace SportStore.Controllers
 {
     public class HomeController : Controller
     {
-        IRepository _repository;
+        private IRepository _repository;
+        private ICategoryRepository _categoryRepository;
 
-        public HomeController(IRepository repository)
+        public HomeController(IRepository repository, ICategoryRepository categoryRepository)
         {
             _repository = repository;
+            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Index()
         {
+            ViewBag.Categories = _categoryRepository.Categories;
             return View(_repository.Products);
         }
 
@@ -30,6 +33,7 @@ namespace SportStore.Controllers
 
         public IActionResult EditProduct(long key)
         {
+            ViewBag.Categories = _categoryRepository.Categories;
             return View(_repository.GetProduct(key));
         }
 
