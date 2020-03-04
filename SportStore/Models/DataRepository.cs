@@ -40,7 +40,13 @@ namespace SportStore.Models
 
         public void UpdateProducts(Product[] products)
         {
-            this.context.Products.UpdateRange(products);
+            //this.context.Products.UpdateRange(products);
+
+            Dictionary<long, Product> data = products.ToDictionary(p => p.Id);
+
+            // Call to database and store the product to baseline. all products are tracked in context.
+            IEnumerable<Product> baseline = context.Products.Where(p => data.Keys.Contains(p.Id));
+
             this.context.SaveChanges();
         }
     }
