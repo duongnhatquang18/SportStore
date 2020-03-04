@@ -37,5 +37,11 @@ namespace SportStore.Models
 
             this.context.SaveChanges();
         }
+
+        public void UpdateProducts(Product[] products)
+        {
+            this.context.Products.UpdateRange(products);
+            this.context.SaveChanges();
+        }
     }
 }

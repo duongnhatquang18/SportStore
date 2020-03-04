@@ -39,5 +39,18 @@ namespace SportStore.Controllers
             _repository.UpdateProduct(p);
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult UpdateAll()
+        {
+            ViewBag.UpdateAll = true;
+            return View("Index", _repository.Products);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateAll(Product[] products)
+        {
+            _repository.UpdateProducts(products);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
