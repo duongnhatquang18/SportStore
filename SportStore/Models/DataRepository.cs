@@ -22,6 +22,12 @@ namespace SportStore.Models
             this.context.SaveChanges();
         }
 
+        public void DeleteProduct(Product product)
+        {
+            this.context.Products.Remove(product);
+            this.context.SaveChanges();
+        }
+
         public Product GetProduct(long key)
         {
             return this.context.Products.Where(x => x.Id == key).FirstOrDefault();

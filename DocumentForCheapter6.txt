@@ -49,3 +49,45 @@
 			  UPDATE [Products] SET [PurchasePrice] = @p0, [RetailPrice] = @p1
 			  WHERE [Id] = @p2;
 			  SELECT @@ROWCOUNT;
+			  
+----------------------------------
+Delete 
+	for deleting object, we just need to put the id to object. And then, the sql will do the another part. 
+	this is the sql that is created. 
+	info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+		  Executed DbCommand (96ms) [Parameters=[@p0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+		  SET NOCOUNT ON;
+		  DELETE FROM [Products]
+		  WHERE [Id] = @p0;
+		  SELECT @@ROWCOUNT;
+----------------------------------------------------------------------------
+Common Problems and Solutions
+1. Objects Are Not Updated or Deleted
+	check that we have already called the save change method. 
+2. The “Reference Not Set to an Instance of an Object” Exception
+	This exception is caused by trying to update an object whose primary property is set to null or zero. The
+	most common reason for this problem is forgetting to include a value for the primary key property in the
+	HTML form that is used to update an object. Although you cannot change the primary key value, you must
+	ensure that a value is provided as part of the HTML form. Use a hidden input element if you don’t want the
+	user to see the primary key value.
+3. The “Instance of Entity Type Cannot be Tracked” Exception
+	This exception is caused when you call the Entity Framework Core Update method using an object created
+	by the MVC model binder after you have queried the database for the same object using Entity Framework
+	Core. 
+	so : 
+	- get data from database and store to object.
+	- update value that is needed to update to the above object. 
+	- then call savechanges. 
+4. The “Property Has a Temporary Value” Exception
+	This exception occurs when you try to send an HTTP request to the application to delete an object but forget
+	to include a value for the primary key property.
+	so: 
+		To prevent this exception, ensure you
+		include an input element that provides the primary key value in the HTML form. The type of the input
+		element can be set to hidden to prevent the user from changing the value.
+5. Updates Result in Zero Values
+	If numeric properties are set to zero by an update, the likely cause is either that the HTML form doesn’t
+	include a value for this property or the value entered by the user cannot be parsed into the property data
+	type by the MVC model binder. 
+	To fix the first problem, ensure that there are values for all the properties defined by the data model class. 
+	To fix the second problem, use the MVC validation features to make partial updates when data values cannot be processed.

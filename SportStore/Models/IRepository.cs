@@ -13,5 +13,6 @@ namespace SportStore.Models
         void AddProduct(Product product);
         void UpdateProduct(Product product);
         void UpdateProducts(Product[] products);
+        void DeleteProduct(Product product);
     }
 }
