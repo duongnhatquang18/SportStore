@@ -47,6 +47,15 @@ namespace SportStore.Models
             // Call to database and store the product to baseline. all products are tracked in context.
             IEnumerable<Product> baseline = context.Products.Where(p => data.Keys.Contains(p.Id));
 
+            // loop throguh baseline. Find the reqeust is linked and update value to product of database.
+            foreach (Product productDataBase in baseline)
+            {
+                Product productRequest = data[productDataBase.Id];
+                productDataBase.Name = productRequest.Name;
+                productDataBase.PurchasePrice = productRequest.PurchasePrice;
+                productDataBase.RetailPrice = productRequest.RetailPrice;
+            }
+
             this.context.SaveChanges();
         }
     }

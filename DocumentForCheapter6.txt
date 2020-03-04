@@ -1,0 +1,51 @@
+-- For update multi document, there 2 point: 
+	// for this way, we always send update command for product data but actually some product doesn't contain any changed. 
+		public void UpdateProducts(Product[] products)
+        {
+            this.context.Products.UpdateRange(products);
+            this.context.SaveChanges();
+        }
+		SQL statement: 
+			info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+				  Executed DbCommand (84ms) [Parameters=[@p1='?' (DbType = Int64), @p0='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+				  SET NOCOUNT ON;
+				  UPDATE [Products] SET [PurchasePrice] = @p0
+				  WHERE [Id] = @p1;
+				  SELECT @@ROWCOUNT;
+			info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+				  Executed DbCommand (10ms) [Parameters=[@p1='?' (DbType = Int64), @p0='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+				  SET NOCOUNT ON;
+				  UPDATE [Products] SET [PurchasePrice] = @p0
+				  WHERE [Id] = @p1;
+				  SELECT @@ROWCOUNT;
+			info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+				  Executed DbCommand (3ms) [Parameters=[@p1='?' (DbType = Int64), @p0='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+				  SET NOCOUNT ON;
+				  UPDATE [Products] SET [PurchasePrice] = @p0
+				  WHERE [Id] = @p1;
+				  SELECT @@ROWCOUNT;
+	// for this way, we just update the changed value.
+		public void UpdateProducts(Product[] products)
+        {
+			// parse the updated value to dictionary 
+			Dictionary<long, Product> data = products.ToDictionary(p => p.Id);
+			// get object database to memory context. 
+			IEnumerable<Product> baseline = context.Products.Where(p => data.Keys.Contains(p.Id));
+			// update the object database value 
+			foreach (Product productDataBase in baseline)
+			{
+				Product productRequest = data[productDataBase.Id];
+				productDataBase.Name = productRequest.Name;
+				productDataBase.PurchasePrice = productRequest.PurchasePrice;
+				productDataBase.RetailPrice = productRequest.RetailPrice;
+			}
+			this.context.SaveChanges();
+		}
+		
+		SQL statement: 
+			info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+			  Executed DbCommand (65ms) [Parameters=[@p2='?' (DbType = Int64), @p0='?' (DbType = Decimal), @p1='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+			  SET NOCOUNT ON;
+			  UPDATE [Products] SET [PurchasePrice] = @p0, [RetailPrice] = @p1
+			  WHERE [Id] = @p2;
+			  SELECT @@ROWCOUNT;
