@@ -29,7 +29,12 @@ namespace SportStore.Models
 
         public void UpdateProduct(Product product)
         {
-            this.context.Products.Update(product);
+            //this.context.Products.Update(product);
+            Product p = GetProduct(product.Id);
+            p.Name = product.Name;
+            p.PurchasePrice = product.PurchasePrice;
+            p.RetailPrice = product.RetailPrice;
+
             this.context.SaveChanges();
         }
     }
