@@ -35,7 +35,7 @@
             <div class="col font-weight-bold">Quantity</div>
         </div>
         @{ int counter = 0; }
-        @foreach (OrderLine line in ViewBag.Lines) {
+        @foreach (OrderLine line in Model.Lines) {
         <input type="hidden" name="lines[@counter].Id" value="@line.Id" />
         <input type="hidden" name="lines[@counter].ProductId"
                value="@line.ProductId" />

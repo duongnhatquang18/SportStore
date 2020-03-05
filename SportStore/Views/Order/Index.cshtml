@@ -11,11 +11,6 @@
         <div class="col-3"></div>
     </div>
     <div>
-        <div class="row placeholder p-2">
-            <div class="col-12 text-center">
-                <h5>No Orders</h5>
-            </div>
-        </div>
         @{ 
             if (Model != null)
             {
@@ -35,7 +30,7 @@
                         <div class="col-3 text-right">
                             <form asp-action="DeleteOrder" method="post">
                                 <input type="hidden" name="Id" value="@o.Id" />
-                                <a asp-action="EditOrder" asp-route-id="@o.Id"
+                                <a asp-action="EditOrder"  asp-route-key="@o.Id"
                                    class="btn btn-outline-primary">Edit</a>
                                 <button type="submit" class="btn btn-outline-danger">
                                     Delete

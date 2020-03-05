@@ -15,7 +15,7 @@ namespace SportStore.Models
             _context = dataContext;
         }
 
-        public IEnumerable<Order> Orders => _context.Orders;
+        public IEnumerable<Order> Orders => _context.Orders.Include(o => o.Lines).ThenInclude(l => l.Product);
 
         public void AddOrder(Order order)
         {
@@ -29,7 +29,21 @@ namespace SportStore.Models
             _context.SaveChanges();
         }
 
+        public Order GetOrder(long key)
+        {
+            return _context.Orders.Where(o => o.Id == key).Include(o => o.Lines)
+                                                          .ThenInclude(l => l.Product)
+                                                          .ThenInclude(p => p.Category)
+                                                          .First();
+        }
+
         public void UpdateOrder(Order order)
+        {
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+        }
+
+        public void test(Order order)
         {
             _context.Orders.Update(order);
             _context.SaveChanges();

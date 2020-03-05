@@ -50,45 +50,15 @@ namespace SportStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult EditOrder()
+        public IActionResult EditOrder(long key)
         {
-            return View();
+            return View(_orderRepository.GetOrder(key));
         }
 
         [HttpPost]
-        public IActionResult AddProduct(Product product)
+        public IActionResult EditOrder(Order order)
         {
-            _repository.AddProduct(product);
-            return RedirectToAction(nameof(Index));
-        }
-
-
-
-        [HttpPost]
-        public IActionResult EditProduct(Product p)
-        {
-            _repository.UpdateProduct(p);
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult UpdateAll()
-        {
-            ViewBag.UpdateAll = true;
-            ViewBag.Categories = _categoryRepository.Categories;
-            return View("Index", _repository.Products);
-        }
-
-        [HttpPost]
-        public IActionResult UpdateAll(Product[] products)
-        {
-            _repository.UpdateProducts(products);
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public IActionResult Delete(Product product)
-        {
-            _repository.DeleteProduct(product);
+            _orderRepository.UpdateOrder(order);
             return RedirectToAction(nameof(Index));
         }
     }

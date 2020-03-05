@@ -1,0 +1,95 @@
+Document for Cheapter 7
+Add and update for object have relation ship
+Common mistake
+1. The “ALTER TABLE conflicted with the FOREIGN KEY” Exception
+	Root cause: 
+		This exception usually occurs when you apply a migration to a database that contains constraints that the
+			existing data in the database doesn’t conform to. For the SportsStore application, for example, you would
+			have seen this exception if you had created Product objects in the database before applying the migration
+			that added support for separate Category objects. The existing data in the database would not have
+			conformed to the requirement to have a foreign key relationship with a category and so the database update
+			would have failed.
+	Solution:
+		The simplest way to solve this problem is to drop and re-create the database, which will remove any
+	data it contains. This isn’t a suitable approach in a production system, however, where the data will have to
+	be carefully modified before the migration can be applied.
+		For production data, change the value of foreign key allow null and run add migration and update database
+		i.e 
+		public class TraderUser : ...
+		{
+		   ...
+
+		   public int TraderCompanyId { get; set; }
+
+		   [ForeignKey("TraderCompanyId")]
+		   public virtual TraderCompany TraderCompany { get; set; }
+		}
+
+		public class TraderCompany : ...
+		{
+		   ...
+		}
+		
+		First migration - move TraderUser.TraderCompanyId => "public int? TraderCompanyId { get; set; }" => rup update-database
+		Second migration - move  int? 					  => public int TraderCompanyId { get; set; } 	 => run update-database
+		
+2. The “UPDATE Conflicted with the FOREIGN KEY” Exception
+	Root cause: 
+		This exception occurs when you try to store a new object or update an existing one using data that doesn’t
+		match the constraints applied to the database to support related data
+		i.e 
+		 for example, this exception will occur if you try to store or update a Product object without including a value for the CategoryId property
+	Solution:
+		- Check the foreign key of the update object. it should be not null.
+		- May be it is populated/bind from the form.
+		
+3. The “The Property Expression ‘x => x.<name>’ is Not Valid” Exception
+	Root cause:
+		This exception occurs when you forget to add get and set clauses to a navigation property and then select
+		it using the Include method.
+		i.e 
+		public class Order
+		{
+			public IEnumerable<OrderLine> Lines;
+		}
+		
+		_context.Order.include(x => x.lines); => exception
+		
+	Solution:
+		Add the get/set property
+		public class Order
+		{
+			public IEnumerable<OrderLine> Lines {get; set;}
+		}
+		
+4. The “Type of Navigation Property <name> Does Not Implement ICollection<OrderLine>” Exception
+
+	Root cause:
+		Entity Framework Core is sensitive to the data types assigned to its navigation properties, and this exception
+		can result when you perform a LINQ query on a navigation property collection before storing data.
+		
+	Solution:
+		ToArray() or ToList()  then Order.Lines will be stored in memory. i.e order.linse.where(...).toarray();
+
+5. The “The Property <name> is Not a Navigation Property of EntityType <name>” Exception
+
+	Root cause:
+		This exception occurs when you use the Include method to select a property that Entity Framework Core
+		cannot follow for related data
+		
+		i.e 
+		order 
+		{
+			userid,
+			user
+		}
+		user
+		{
+			id
+		}
+		
+		context.order.include(u => u.id); => exception in here 
+		
+	Solution:
+		move to u.user 
+		context.order.include(u => u.user);
