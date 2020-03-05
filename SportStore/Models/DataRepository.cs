@@ -55,7 +55,7 @@ namespace SportStore.Models
             Dictionary<long, Product> data = products.ToDictionary(p => p.Id);
 
             // Call to database and store the product to baseline. all products are tracked in context.
-            IEnumerable<Product> baseline = context.Products.Where(p => data.Keys.Contains(p.Id));
+            IEnumerable<Product> baseline = context.Products.Where(p => data.Keys.Contains(p.Id)).Include(p=>p.Category);
 
             // loop throguh baseline. Find the reqeust is linked and update value to product of database.
             foreach (Product productDataBase in baseline)
@@ -64,6 +64,7 @@ namespace SportStore.Models
                 productDataBase.Name = productRequest.Name;
                 productDataBase.PurchasePrice = productRequest.PurchasePrice;
                 productDataBase.RetailPrice = productRequest.RetailPrice;
+                productDataBase.CategoryId = productRequest.CategoryId;
             }
 
             this.context.SaveChanges();

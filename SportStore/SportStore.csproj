@@ -159,8 +159,4 @@
     <None Include="wwwroot\lib\bootstrap\scss\_variables.scss" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

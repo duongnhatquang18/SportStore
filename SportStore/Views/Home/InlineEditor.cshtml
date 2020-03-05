@@ -19,8 +19,17 @@
                    value="@p.Name" />
         </div>
         <div class="col">
-            <input class="form-control" name="Products[@i].Category"
-                   value="@p.Category.Description" />
+            <select class="form-control" id="CategoryId" name="Products[@i].CategoryId">
+                @foreach (Category c in ViewBag.Categories)
+                {
+                    bool selected = p.CategoryId == @c.Id ? true : false;
+                    <option 
+                        selected="@selected" 
+                        value="@c.Id">
+                        @c.Name
+                    </option>
+                }
+            </select>
         </div>
         <div class="col text-right">
             <input class="form-control" name="Products[@i].PurchasePrice"

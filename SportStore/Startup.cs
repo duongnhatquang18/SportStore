@@ -30,6 +30,7 @@ namespace SportStore
 
             services.AddTransient<IRepository, DataRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
 
             /* Add connect string for ef core*/
             string conString = _configuration["ConnectionStrings:DefaultConnection"];

@@ -7,21 +7,52 @@ using SportStore.Models;
 
 namespace SportStore.Controllers
 {
-    public class HomeController : Controller
+    public class OrderController : Controller
     {
         private IRepository _repository;
         private ICategoryRepository _categoryRepository;
+        private IOrderRepository _orderRepository;
 
-        public HomeController(IRepository repository, ICategoryRepository categoryRepository)
+        public OrderController(IRepository repository, ICategoryRepository categoryRepository, IOrderRepository orderRepository)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
+            _orderRepository = orderRepository;
         }
 
         public IActionResult Index()
         {
-            ViewBag.Categories = _categoryRepository.Categories;
-            return View(_repository.Products);
+            return View(_orderRepository.Orders);
+        }
+
+        public IActionResult CreateOrder()
+        {
+            Order order = new Order();
+            List<OrderLine> orderLines = new List<OrderLine>();
+            foreach (Product product in _repository.Products)
+            {
+                OrderLine orderLine = new OrderLine();
+                orderLine.OrderId = order.Id;
+                orderLine.ProductId = product.Id;
+                orderLine.Quantity = 0;
+                orderLine.Product = product;
+                orderLines.Add(orderLine);
+            }
+
+            ViewBag.lines = orderLines;
+            return View(order);
+        }
+
+        [HttpPost]
+        public IActionResult CreateOrder(Order order)
+        {
+            _orderRepository.AddOrder(order);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult EditOrder()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -31,11 +62,7 @@ namespace SportStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult EditProduct(long key)
-        {
-            ViewBag.Categories = _categoryRepository.Categories;
-            return View(_repository.GetProduct(key));
-        }
+
 
         [HttpPost]
         public IActionResult EditProduct(Product p)
