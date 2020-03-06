@@ -1,0 +1,31 @@
+[33m6a4ef59[m[33m ([m[1;36mHEAD -> [m[1;32mCheapter9-AddShopingCart[m[33m, [m[1;31morigin/InitialProject[m[33m, [m[1;31morigin/Cheapter9-AddShopingCart[m[33m, [m[1;32mInitialProject[m[33m)[m Adding the seaching/sorting function for paging page - adding the index to improve perfomance - Adding the note for cheapter 7
+[33m049a06e[m Add seed controller
+[33m4a3e480[m Fix some bug of order page
+[33mb93e8ed[m Implement the new function for order page
+[33md1bd5e5[m Apply for the category object
+[33m5388fa5[m Add some common error and solution to document
+[33mb912c3b[m Fix the bug - just update the changed value for multiUpdateProduct
+[33m98155ff[m Fix the bug - just update the chagned value
+[33maebe162[m Add function for update multi products
+[33m21e17c3[m Fix bug - just only for the property is changed
+[33m80686a1[m Update controller and view for updating pprpduct
+[33m347e96e[m Add function get product and update product for repository
+[33m11ba5bf[m Add Error file
+[33m757c76b[m Add document for dependency injection document
+[33m72d978e[m Add migration for create database
+[33m35bd525[m Add connect string for ef core
+[33ma63f225[m Add the description for repository
+[33m328a093[m Include the datacontext to repository
+[33mb14ed2c[m Add the key for product - Add the class DataContext
+[33m9ab6d43[m Add controller and view
+[33mcf2cff7[m Add repository
+[33me392409[m Add the change for note git
+[33mbf7c882[m Merge remote-tracking branch 'origin/InitialProject' into InitialProject
+[33md9dca2d[m change test
+[33m4afa276[m Merge branch 'InitialProject' of https://github.com/duongnhatquang18/SportStore into InitialProject
+[33md94af51[m Add Product model
+[33md3a5aa6[m Add MVC For Project
+[33mc049019[m Note for git
+[33m33a1b84[m Initial Project
+[33m8261716[m Add project files.
+[33md9d2d65[m Add .gitignore and .gitattributes.

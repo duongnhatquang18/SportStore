@@ -27,13 +27,9 @@ namespace SportStore.Models.Paging
                     query = Search(query, options.SearchPropertyName,options.SearchTerm);
                 }
             }
-            Stopwatch sw = Stopwatch.StartNew();
-            Console.Clear();
 
             TotalPages = query.Count() / PageSize;
             this.AddRange(query.Skip((CurrentPage - 1) * PageSize).Take(PageSize));
-
-            Console.WriteLine($"Query Time: {sw.ElapsedMilliseconds} ms");
         }  
 
         public int CurrentPage { get; set; }
