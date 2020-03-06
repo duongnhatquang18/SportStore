@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SportStore.Models.Paging;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,6 +35,11 @@ namespace SportStore.Models
         {
             return this.context.Products.Include(x => x.Category)
                                         .First(x => x.Id == key);
+        }
+
+        public PagedList<Product> GetProduct(QueryOptions queryOptions)
+        {
+            return new PagedList<Product>(context.Products.Include(x => x.Category), queryOptions);
         }
 
         public void UpdateProduct(Product product)

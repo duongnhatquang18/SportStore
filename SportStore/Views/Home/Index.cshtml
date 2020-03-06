@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<Product>
 
 <h3 class="p-2 bg-primary text-white text-center">Products</h3>
+<div class="text-center">
+    @Html.Partial("Pages", Model);
+    @Html.Partial("PageOptions", Model)
+</div>
 <div class="container-fluid mt-3">
     @if (ViewBag.UpdateAll != true)
     {
@@ -53,7 +57,7 @@
                 <div class="row p-2">
                     <div class="col-1">@p.Id</div>
                     <div class="col">@p.Name</div>
-                    <div class="col">@p.Category.Description</div>
+                    <div class="col">@p.Category.Name</div>
                     <div class="col text-right">@p.PurchasePrice</div>
                     <div class="col text-right">@p.RetailPrice</div>
                     <div class="col">

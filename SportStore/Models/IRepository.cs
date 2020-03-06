@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SportStore.Models.Paging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,5 +15,8 @@ namespace SportStore.Models
         void UpdateProduct(Product product);
         void UpdateProducts(Product[] products);
         void DeleteProduct(Product product);
+
+        // Paging
+        PagedList<Product> GetProduct(QueryOptions queryOptions);
     }
 }

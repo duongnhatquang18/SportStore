@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SportStore.Models.Paging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,6 +33,12 @@ namespace SportStore.Models
         {
             this._context.Categories.Update(category);
             this._context.SaveChanges();
+        }
+
+        // paging
+        public PagedList<Category> GetCategories(QueryOptions queryOptions)
+        {
+            return new PagedList<Category>(_context.Categories, queryOptions);
         }
     }
 }

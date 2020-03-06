@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SportStore.Models;
+using SportStore.Models.Paging;
 
 namespace SportStore.Controllers
 {
@@ -18,10 +19,19 @@ namespace SportStore.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    ViewBag.Categories = _categoryRepository.Categories;
+        //    return View(_repository.Products);
+        //}
+
+        public IActionResult Index(QueryOptions options)
         {
             ViewBag.Categories = _categoryRepository.Categories;
-            return View(_repository.Products);
+            ViewBag.searches = new string[] { "Name", "Category.Name" };
+            ViewBag.sorts = new string[] { "Name", "Category.Name", "PurchasePrice", "RetailPrice" };
+   
+            return View(_repository.GetProduct(options));
         }
 
         [HttpPost]

@@ -14,6 +14,5 @@ namespace SportStore.Models
         public string ZipCode { get; set; }
         public bool Shipped { get; set; }
         public IEnumerable<OrderLine> Lines { get; set; }
-        public IEnumerable<OrderLine> Line2s { get; set; }
     }
 }

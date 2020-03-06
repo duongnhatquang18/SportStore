@@ -16,6 +16,7 @@ namespace SportStore.Models
         }
 
         public IEnumerable<Order> Orders => _context.Orders.Include(o => o.Lines).ThenInclude(l => l.Product);
+        
 
         public void AddOrder(Order order)
         {

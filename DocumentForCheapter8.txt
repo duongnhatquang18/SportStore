@@ -1,0 +1,56 @@
+1. Using the controller to seed data in dev environment.
+2. Implement the paging for the page 
+	
+	Idea: 
+		the structure of the page :
+			- paging view
+			- list data 
+		i.e 
+			- page view 
+			- list product.
+		So 
+			- paging view show the list page of product.
+			- list product show the list product 
+			- now there are 2 model in the same page. we will collapse 2 model to one model. 
+			  we will create PageList model. ke thua list<product> 
+			  i.e
+			  public PageList : List<Product>
+			  {
+				int currentPage;
+				int pagesize;
+				int totalPage;
+				
+				bool HasPreviousPage;
+				bool HasNextPage;
+			  }
+			- then in view 
+				return View(PageList); (PageList now have the list product and the information of list paging pages)
+3. Add the searching
+4. Add the sort 
+4. Add the index 
+	using fluent api 
+
+-----------------------------------------------------------------------------------------------
+Common issue
+1. Queries for Pages Are Too Slow
+	- because sometimes we will try to loading a large data in once time and searching or sorting. 
+	- we should did it on the database instead of query on memory ram. 
+	- so that using IQueryable (instead of IENUMARABLE)
+2. Applying the Index Migration Times Out
+	- If we apply the index by fluent api, the ef core will take a long time to update 
+	and may be time out for request. 
+	so for :
+	- dev environment: we can drop and apply index and re-create database again.
+	- product environment: back-up database. drop database. apply index. populate each small part database to server again.
+3. Creating an Index Does Not Improve Performance
+	- sometimes after applying the index, the perfomance still is same. 
+	the reason may be that the searching and the index is not same. make sure those same. 
+	i.e searching - name, amonut
+	the index should be name, amount.
+4. the searching for count() sql statment 
+	select sum (spart.rows)
+	from sys.partitions spart
+	where spart.object_id = object_id('Products') and spart.index_id < 2
+
+		
+		

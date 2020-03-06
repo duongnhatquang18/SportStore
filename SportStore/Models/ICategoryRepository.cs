@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SportStore.Models.Paging;
+using System.Collections.Generic;
 
 namespace SportStore.Models
 {
@@ -8,5 +9,8 @@ namespace SportStore.Models
         void AddCategory(Category category);
         void UpdateCategory(Category category);
         void DeleteCategory(Category category);
+
+        // Paging
+        PagedList<Category> GetCategories(QueryOptions queryOptions);
     }
 }

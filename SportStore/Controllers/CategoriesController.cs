@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SportStore.Models;
+using SportStore.Models.Paging;
 
 namespace SportStore.Controllers
 {
@@ -8,7 +9,13 @@ namespace SportStore.Controllers
         private ICategoryRepository repository;
         public CategoriesController(ICategoryRepository repo) => repository = repo;
 
-        public IActionResult Index() => View(repository.Categories);
+        public IActionResult Index(QueryOptions options)
+        {
+            ViewBag.searches = new string[] { "Name", "Description" };
+            ViewBag.sorts = new string[] { "Name", "Description" };
+
+            return View(repository.GetCategories(options));
+        }
 
         [HttpPost]
         public IActionResult AddCategory(Category category)

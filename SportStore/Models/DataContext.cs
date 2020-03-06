@@ -11,5 +11,22 @@ namespace SportStore.Models
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLine { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                        .HasKey(p => p.Id);
+
+            modelBuilder.Entity<Category>()
+                        .HasKey(c => c.Id);
+
+            modelBuilder.Entity<Product>()
+                        .HasOne(p => p.Category)
+                        .WithMany(c => c.Products)
+                        .HasForeignKey(p => p.CategoryId);
+
+            modelBuilder.Entity<Product>()
+                        .HasIndex(p => p.Name);
+        }
     }
 }
