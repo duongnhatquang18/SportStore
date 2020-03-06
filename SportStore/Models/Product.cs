@@ -11,6 +11,8 @@ namespace SportStore.Models
         public long Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Description { get; set; }
         //public string Category { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal PurchasePrice { get; set; }
