@@ -17,6 +17,6 @@ namespace SportStore.Models
         void DeleteProduct(Product product);
 
         // Paging
-        PagedList<Product> GetProduct(QueryOptions queryOptions);
+        PagedList<Product> GetProduct(QueryOptions queryOptions, long category = 0);
     }
 }

@@ -35,6 +35,19 @@ namespace SportStore
             /* Add connect string for ef core*/
             string conString = _configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<DataContext>(options => options.UseSqlServer(conString));
+
+            /* Add session in database */
+            services.AddDistributedSqlServerCache(options => {
+                options.ConnectionString = conString;
+                options.SchemaName = "dbo";
+                options.TableName = "SessionData";
+            });
+            /* Add session in app */
+            services.AddSession(options => {
+                options.Cookie.Name = "SportStore.Session";
+                options.IdleTimeout = System.TimeSpan.FromHours(48);
+                options.Cookie.HttpOnly = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

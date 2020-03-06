@@ -37,9 +37,14 @@ namespace SportStore.Models
                                         .First(x => x.Id == key);
         }
 
-        public PagedList<Product> GetProduct(QueryOptions queryOptions)
+        public PagedList<Product> GetProduct(QueryOptions queryOptions, long category = 0)
         {
-            return new PagedList<Product>(context.Products.Include(x => x.Category), queryOptions);
+            IQueryable<Product> query = context.Products.Include(p => p.Category);
+
+            if (category != 0)
+                query = query.Where(p => p.CategoryId == category);
+
+            return new PagedList<Product>(query, queryOptions);
         }
 
         public void UpdateProduct(Product product)
