@@ -14,9 +14,9 @@ namespace SportStore.Models
         {
             this.context = dataContext;
         }
-           
+
         public IEnumerable<Product> Products => context.Products
-                                                       .Include(p => p.Category).ToList();
+                                                       .Include(p => p.Category).ToArray();
 
         public void AddProduct(Product product)
         {

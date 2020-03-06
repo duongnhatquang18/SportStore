@@ -42,11 +42,5 @@ namespace SportStore.Models
             _context.Orders.Update(order);
             _context.SaveChanges();
         }
-
-        public void test(Order order)
-        {
-            _context.Orders.Update(order);
-            _context.SaveChanges();
-        }
     }
 }
