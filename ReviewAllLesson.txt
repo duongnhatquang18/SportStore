@@ -1,0 +1,27 @@
+Review lesson 9
+	work with the shoping cart
+	work with session in database
+	work with session in application
+	... continue on 07/03/2020
+Review Lesson 8
+	Deal with perfomance issue
+		- Paging the page 
+		- Add searching function
+		- Add order function
+	Add the index to improve perfomance
+	Queries for Pages Are Too Slow : using IQueryable
+	query count() object should be done in sql if the data is large. 
+Review lesson 7:
+	- how to set up the relation ship between two data ? (set up the key and the object)
+	- how to get the data and the relation data ? (Using include when query get data)
+	- how to add the data that includes the sub data ? (add order that contains orderline)
+Review lesson 6: 
+	- how to add/update/delete the object from ef core ?
+Review lesson 5,4,3,2,1:
+	- how to set up the configuration to set up ef core ? 
+		- set up package sqlserver.core.
+		- set up connection string in appsetting.json
+		- set up context of ef core in startup.cs 
+	- how to set up the repository or set up the repository partern in project ?
+		
+	

@@ -1,4 +1,4 @@
-1. Entity Framwork - Set up - Version......
+1. Entity Framwork - Set up - Version. 
 	- The .net core require the version 2.2 => 2.3 for entityframwork.sql . so re-down the version to 2.2 
 	
 2. No executable found matching command dotnet-ef

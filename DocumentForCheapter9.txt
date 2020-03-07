@@ -1,0 +1,45 @@
+Add the function for shoping cart
+- Add the store controller
+- Add the store page 
+- Add the shopping cart controller
+- Add the cart page 
+
+--------------------------------------------------
+Commmon mistake
+1. Session Objects Are Null
+	root cause: miss set up the session on database or app. 
+	may be need make sure this below set up:
+	Set up sessiondata table 
+		- dotnet sql-cache create "Server=(localdb)\MSSQLLocalDB;Database=SportsStore" "dbo" "SessionData"
+	Configuration in startup
+		public void ConfigureServices(IServiceCollection services)
+        {
+		   /* Add session in database */
+            services.AddDistributedSqlServerCache(options => {
+                options.ConnectionString = conString;
+                options.SchemaName = "dbo";
+                options.TableName = "SessionData";
+            });
+            /* Add session in app */
+            services.AddSession(options => {
+                options.Cookie.Name = "SportStore.Session";
+                options.IdleTimeout = System.TimeSpan.FromHours(48);
+                options.Cookie.HttpOnly = false;
+            });
+		}
+		
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+			app.UseSession();
+			app.UseMvcWithDefaultRoute();
+		}
+2. Session Objects Are Lost or Inconsistently Available
+	This is most likely caused by configuring the session feature to store its data in memory rather than in a
+	database. An in-memory session store can be quicker, but the data is lost when the application is restarted,
+	which is especially problematic if you using application containers, such as Docker containers, and are
+	adapting to demand by starting and stopping containers.
+	
+	Similarly, using an in-memory session store can lead to inconsistent session data when there are
+	multiple instances of the MVC application running and you have not configured the network to ensure that
+	HTTP requests from the same client are always handled by the same MVC instance. If you encounter either
+	of these problems, then consider storing session data in a database as demonstrated in this chapter.
