@@ -58,6 +58,7 @@ namespace SportStore
                 app.UseDeveloperExceptionPage();
                 app.UseStatusCodePages();
                 app.UseStaticFiles();
+                app.UseSession();
                 app.UseMvcWithDefaultRoute();
             }
         }
