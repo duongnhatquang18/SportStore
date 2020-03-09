@@ -1,4 +1,4 @@
-﻿- clone from the repository
+﻿- clone from the repository  
 	git clone https://github.com/ducnc92/demo1.git
 	
 	git clone -branch [branch-name] [git://remoterepository.git]
